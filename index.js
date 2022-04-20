@@ -1,30 +1,55 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const port = process.env.PORT || 5000;
+
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("Hello From Node Server!");
 });
 
 const users = [
-  { id: 1, firstName: "John", lastName: "Doe" },
-  { id: 2, firstName: "Brad", lastName: "Traversy" },
-  { id: 3, firstName: "Marry", lastName: "Swanson" },
-  { id: 4, firstName: "Carry", lastName: "Kwanson" },
-  { id: 5, firstName: "Herry", lastName: "Lwanson" },
-  { id: 6, firstName: "Larry", lastName: "Dwanson" },
-  { id: 7, firstName: "Orry", lastName: "Pwanson" },
+  { id: 1, name: "Sabana", email: "sabana@gmail.com", phone: "0178888888" },
+  { id: 2, name: "Shabnoor", email: "Shabnoor@gmail.com", phone: "0178888888" },
+  {
+    id: 3,
+    name: "Suchorita",
+    email: "Suchorita@gmail.com",
+    phone: "0178888888",
+  },
+  { id: 4, name: "suchonda", email: "suchonda@gmail.com", phone: "0178888888" },
+  { id: 5, name: "srabonti", email: "srabonti@gmail.com", phone: "0178888888" },
+  { id: 6, name: "sabila", email: "sabila@gmail.com", phone: "0178888888" },
+  { id: 7, name: "sohana", email: "sohana@gmail.com", phone: "0178888888" },
 ];
-
 app.get("/users", (req, res) => {
   res.send(users);
 });
 
 app.get("/user/:id", (req, res) => {
   console.log(req.params);
-  const userId = req.params.id;
-  const user = users.find((user) => user.id !== userId);
-  res.json(user);
+  // const id = req.params.id;
+  const id = parseInt(req.params.id);
+  // const user = users[id];
+  const user = users.find((user) => user.id === id);
+  res.send(user);
+});
+
+app.post("/user", (req, res) => {
+  console.log("request", req.body);
+  const user = req.body;
+  user.id = users.length + 1;
+  users.push(user);
+  res.send(user);
+});
+
+app.get("/fruits", (req, res) => {
+  res.send(["mango", "apple", "oranges"]);
+});
+
+app.get("/fruits/mango/fazle", (req, res) => {
+  res.send("sour sour fazle flavor");
 });
 
 app.listen(port, () => {
